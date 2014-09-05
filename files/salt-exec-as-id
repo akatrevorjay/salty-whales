@@ -1,0 +1,3 @@
+#!/bin/bash -e
+echo "id: $1" > /etc/salt/minion.d/id.conf
+exec "${@:2}"

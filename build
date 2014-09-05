@@ -1,0 +1,1 @@
+docker build -t trevorj/ubu-salt-minion:trusty .

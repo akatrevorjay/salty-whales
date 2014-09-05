@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+case "$(uname -s)" in
+    Darwin)     WORKDIR="${WORKDIR:-/home/core/share/salt-docker}" ;;
+    Linux)      WORKDIR="${WORKDIR:-$PWD}" ;;
+esac
+
+IMAGE="${IMAGE:-trevorj/ubu-salt-minion:trusty}"
+
+exec docker run -t -i \
+    -v "${STATES:-$WORKDIR/salt}:/srv/salt" \
+    -v "${PILLAR:-$WORKDIR/pillar}:/srv/pillar" \
+    "$IMAGE" \
+    "$@"
