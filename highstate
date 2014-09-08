@@ -1,3 +1,2 @@
 #!/bin/bash -e
-MINION_ID="${MINION_ID:-salty-docker}"
-exec ./run salt-exec-as-id "$MINION_ID" salt-call --local state.highstate "$@"
+exec ./run salt-call --local state.highstate "$@"

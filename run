@@ -7,8 +7,12 @@ esac
 
 IMAGE="${IMAGE:-trevorj/ubu-salt-minion:trusty}"
 
+[[ -z "$MINION_ID" ]] \
+    || ARGS+=" -e MINION_ID=$MINION_ID"
+
 exec docker run -t -i \
     -v "${STATES:-$WORKDIR/salt}:/srv/salt" \
     -v "${PILLAR:-$WORKDIR/pillar}:/srv/pillar" \
+    $ARGS \
     "$IMAGE" \
     "$@"

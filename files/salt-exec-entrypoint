@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+if [[ -n "$MINION_ID" ]]; then
+    echo "id: $MINION_ID" > /etc/salt/minion.d/id.conf
+fi
+
+exec "$@"
