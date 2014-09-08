@@ -22,6 +22,7 @@ RUN apt-get install -y salt-minion
 
 # Add in entrypoint
 #ADD ./files/salt-exec-as-id /usr/local/bin/
+ADD ./files/salt-set-minion-id /usr/local/bin/
 ENV MINION_ID salty-docker
 ADD ./files/salt-exec-entrypoint /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/salt-exec-entrypoint"]
