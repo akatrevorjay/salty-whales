@@ -26,3 +26,7 @@ ADD ./files/salt-set-minion-id /usr/local/bin/
 ENV MINION_ID salty-docker
 ADD ./files/salt-exec-entrypoint /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/salt-exec-entrypoint"]
+
+# Cleanup
+RUN apt-get clean
+#RUN rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/*
