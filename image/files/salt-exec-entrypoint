@@ -4,4 +4,8 @@ if [[ -n "$MINION_ID" ]]; then
     salt-set-minion-id "$MINION_ID"
 fi
 
-exec "$@"
+# HACK runit sends HUP to PID 1, causing our shell to exit
+trap ':' HUP
+
+# Do not use exec here so our trap stays.
+"$@"
