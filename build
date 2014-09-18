@@ -1,1 +1,1 @@
-docker build -t trevorj/ubu-salt-minion:trusty .
+docker build -t trevorj/ubu-salt-minion:trusty ./image
