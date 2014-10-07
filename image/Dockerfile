@@ -37,12 +37,12 @@ RUN apt-get update -qq
 # Finally, install salt-minion
 RUN apt-get install -qqy salt-minion
 
+# Add in files
+ADD ./files /opt/salty-docker
+
 # Add in entrypoint
-#ADD ./files/salt-exec-as-id /usr/local/bin/
-ADD ./files/salt-set-minion-id /usr/local/bin/
 ENV MINION_ID salty-docker
-ADD ./files/salt-exec-entrypoint /usr/local/bin/
-ENTRYPOINT ["/usr/local/bin/salt-exec-entrypoint"]
+ENTRYPOINT ["/opt/salty-docker/entrypoint"]
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*

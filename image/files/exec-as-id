@@ -1,0 +1,3 @@
+#!/bin/bash -e
+/opt/salty-docker/set-minion-id "$1"
+exec "${@:2}"
