@@ -13,29 +13,29 @@ RUN apt-get update -qq
 
 # Fix locale
 ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-RUN locale-gen en_US.UTF-8
+ENV LANG $LANGUAGE
+RUN locale-gen $LANG
 # Reconfigure
 RUN dpkg-reconfigure --frontend noninteractive locales
-RUN apt-get -qqy install language-pack-en
+#RUN apt-get -qqy install language-pack-en
 
-# Timezone
-ENV TZ "US/Eastern"
-RUN echo "$TZ" > /etc/timezone
-RUN dpkg-reconfigure --frontend noninteractive tzdata
+## Timezone
+#ENV TZ "US/Eastern"
+#RUN echo "$TZ" > /etc/timezone
+#RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 # Base packages
 #RUN apt-get install -qqy ca-certificates curl wget unzip vim
 
-# Nab apt-add-repository and python-apt which is required by salt by not specified.
-RUN apt-get install -qqy software-properties-common python-apt
+# Nab apt-add-repository
+RUN apt-get install -qqy software-properties-common
 
 # Add saltstack ppa
 RUN add-apt-repository ppa:saltstack/salt
 RUN apt-get update -qq
 
-# Finally, install salt-minion
-RUN apt-get install -qqy salt-minion
+# Finally, install salt-minion and python-apt (salt relies on this but it's not specified in deb atm)
+RUN apt-get install -qqy python-apt salt-minion
 
 # Add in files
 ADD ./files /opt/salty-docker
