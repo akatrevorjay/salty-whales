@@ -1,24 +1,41 @@
 FROM ubuntu:trusty
 MAINTAINER Trevor Joynson "docker@skywww.net"
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 # Add multiverse repos
 #ADD ./multiverse.list /etc/apt/sources.list.d/multiverse.list
 #RUN sed -i "s/\$codename/$(lsb_release -cs)/g" /etc/apt/sources.list.d/multiverse.list
 
-# Nab apt-add-repository
-RUN apt-get update
-RUN apt-get install -y software-properties-common
+# Update repos, upgrade possible
+RUN apt-get update -qq
+#RUN apt-get upgrade -qqy
+
+# Fix locale
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+RUN locale-gen en_US.UTF-8
+# Reconfigure
+RUN dpkg-reconfigure --frontend noninteractive locales
+RUN apt-get -qqy install language-pack-en
+
+# Timezone
+ENV TZ "US/Eastern"
+RUN echo "$TZ" > /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
+# Base packages
+#RUN apt-get install -qqy ca-certificates curl wget unzip vim
+
+# Nab apt-add-repository and python-apt which is required by salt by not specified.
+RUN apt-get install -qqy software-properties-common python-apt
 
 # Add saltstack ppa
 RUN add-apt-repository ppa:saltstack/salt
-RUN apt-get update
-
-# Keep upstart from complaining
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -sf /bin/true /sbin/initctl
+RUN apt-get update -qq
 
 # Finally, install salt-minion
-RUN apt-get install -y salt-minion
+RUN apt-get install -qqy salt-minion
 
 # Add in entrypoint
 #ADD ./files/salt-exec-as-id /usr/local/bin/
@@ -28,5 +45,4 @@ ADD ./files/salt-exec-entrypoint /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/salt-exec-entrypoint"]
 
 # Cleanup
-RUN apt-get clean
-#RUN rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
