@@ -1,3 +1,4 @@
 #!/bin/bash -e
-[[ -n "$1" ]] || (echo "Must specify minion_id as argument, eg: $0 salty-docker.domain.tld" >&2; exit 1)
-echo "id: $1" > /etc/salt/minion.d/id.conf
+[[ -n "$1" ]] || [[ -z "$MINION_ID" ]] || set -- "$MINION_ID"
+[[ -n "$1" ]] || (echo "Must specify MINION_ID as argument or env var, eg: $0 salty-docker.domain.tld" >&2; exit 1)
+echo "id: $1" > "/etc/salt/minion.d/id.conf"
