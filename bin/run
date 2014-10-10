@@ -5,10 +5,13 @@ case "$(uname -s)" in
     Linux)      WORKDIR="${WORKDIR:-$PWD}" ;;
 esac
 
-IMAGE="${IMAGE:-trevorj/ubu-salt-minion:trusty}"
+IMAGE="${IMAGE:-trevorj/ubuntu-salt-minion:local}"
 
 [[ -z "$MINION_ID" ]] \
     || ARGS+=" -e MINION_ID=$MINION_ID"
+
+#[[ -z "$MINION_ROLE" ]] \
+#    || ARGS+=" -e MINION_ROLE=$MINION_ROLE"
 
 exec docker run -t -i \
     -v "${STATES:-$WORKDIR/salt}:/srv/salt" \
