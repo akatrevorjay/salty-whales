@@ -1,6 +1,9 @@
 FROM trevorj/ubuntu:trusty
 MAINTAINER Trevor Joynson "docker@skywww.net"
 
+# Add in files
+ADD ./files /opt/salty-docker
+
 # Update repos, upgrade possible
 RUN apt-get update -qq
 #RUN apt-get upgrade -qqy
@@ -14,9 +17,6 @@ RUN apt-get update -qq
 
 # Finally, install salt-minion and python-apt (salt relies on this but it's not specified in deb atm)
 RUN apt-get install -qqy python-apt salt-minion
-
-# Add in files
-ADD ./files /opt/salty-docker
 
 # Add in entrypoint
 ENV MINION_ID salty-docker
