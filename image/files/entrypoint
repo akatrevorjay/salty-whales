@@ -4,8 +4,12 @@ if [[ -n "$MINION_ID" ]]; then
     /opt/salty-docker/set-minion-id
 fi
 
-# HACK runit sends HUP to PID 1, causing our shell to exit
-trap ':' HUP
+if [[ -z "$RUNIT_HUP_HACK" ]]; then
+    exec "$@"
+else
+    # HACK runit sends HUP to PID 1, causing our shell to exit
+    trap ':' HUP
 
-# Do not use exec here so our trap stays.
-"$@"
+    # Do not use exec here so our trap stays.
+    "$@"
+fi
