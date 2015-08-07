@@ -9,12 +9,11 @@ RUN apt-get update -qq \
     && apt-get install -qqy software-properties-common \
     && add-apt-repository ppa:saltstack/salt \
     && apt-get update -qq \
-    && apt-get install -qqy python-apt salt-minion
+    && apt-get install -qqy python-apt salt-minion \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && :
 
 # Add in entrypoint
 ENV MINION_ID salty-docker
 
 ENTRYPOINT ["/opt/salty-docker/entrypoint"]
-
-# Cleanup
-RUN rm -rf /var/lib/apt/lists/*
