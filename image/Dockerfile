@@ -9,7 +9,7 @@ RUN echo "Installing wget" \
 
 RUN echo "Backwards compat" \
     && mkdir -p /opt/salty-docker \
-    && ln -s /sbin/{set-minion-id,exec-as-id} /opt/salty-docker/ \
+    && ln -s /sbin/set-minion-id /sbin/exec-as-id /opt/salty-docker/ \
     && :
 
 # Install salt-minion
@@ -20,7 +20,7 @@ RUN echo "Installing salt-minion" \
     && apt-get update -q \
     && apt-get install -qy python-apt salt-minion \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && : \
+    && :
 
 # Add in files
 ADD sbin /sbin/
