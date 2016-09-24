@@ -9,12 +9,6 @@ RUN set -exv \
         curl \
  && :
 
-##ARG SALT_MAJOR="2016.3"
-#ARG SALT_MAJOR="latest"
-#ARG SALT_ARCH="amd64"
-#ARG SALT_UBU_RELEASE="latest"
-#ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/${SALT_UBU_RELEASE}/${SALT_ARCH}/${SALT_MAJOR}"
-
 # Latest.
 ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/latest"
 
