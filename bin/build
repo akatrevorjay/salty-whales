@@ -1,1 +1,2 @@
-docker build -t trevorj/ubuntu-salt-minion:local ./image
+#!/bin/bash -e
+exec docker build -t trevorj/ubuntu-salt-minion:local ./image

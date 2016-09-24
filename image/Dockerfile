@@ -1,26 +1,34 @@
-FROM trevorj/ubuntu:trusty
-MAINTAINER Trevor Joynson "docker@skywww.net"
+FROM ubuntu
+MAINTAINER Trevor Joynson <docker@trevor.joynson.io>
 
-RUN echo "Installing wget" \
-    && apt-get update -q \
-    && apt-get install -qy wget \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && :
+ADD common/bin /usr/local/bin/
+RUN image-prep
 
-RUN echo "Backwards compat" \
-    && mkdir -p /opt/salty-docker \
-    && ln -s /sbin/set-minion-id /sbin/exec-as-id /opt/salty-docker/ \
-    && :
+RUN set -exv \
+ && lazy-apt --no-install-recommends \
+        curl \
+ && :
+
+##ARG SALT_MAJOR="2016.3"
+#ARG SALT_MAJOR="latest"
+#ARG SALT_ARCH="amd64"
+#ARG SALT_UBU_RELEASE="latest"
+#ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/${SALT_UBU_RELEASE}/${SALT_ARCH}/${SALT_MAJOR}"
+
+# Latest.
+ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/latest"
 
 # Install salt-minion
-RUN echo "Installing salt-minion" \
-    && repo="http://repo.saltstack.com/apt/ubuntu/ubuntu14/latest" \
-    && wget -qO - "$repo/SALTSTACK-GPG-KEY.pub" | apt-key add - \
-    && echo "deb $repo $(lsb_release -cs) main" >> /etc/apt/sources.list.d/saltstack-official.list \
-    && apt-get update -q \
-    && apt-get install -qy python-apt salt-minion \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && :
+RUN set -exv \
+ && lazy-apt --no-install-recommends \
+    lsb-release \
+ && curl -sSL "${SALT_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
+    | apt-key add - \
+ && echo "deb $SALT_APT_REPO $(lsb_release -cs) main" >> /etc/apt/sources.list.d/saltstack-official.list \
+ && lazy-apt --no-install-recommends \
+        python-apt \
+        salt-minion \
+ && :
 
 # Add in files
 ADD sbin /sbin/

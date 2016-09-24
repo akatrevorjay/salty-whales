@@ -1,11 +1,7 @@
 #!/bin/bash -e
 
-case "$(uname -s)" in
-    Darwin)     WORKDIR="${WORKDIR:-/home/core/share/containers/salt-docker}" ;;
-    Linux)      WORKDIR="${WORKDIR:-$PWD}" ;;
-esac
-
-IMAGE="${IMAGE:-trevorj/ubuntu-salt-minion:local}"
+: ${WORKDIR:=$PWD}
+: ${IMAGE:=trevorj/ubuntu-salt-minion:local}
 
 [[ -z "$MINION_ID" ]] \
     || ARGS+=" -e MINION_ID=$MINION_ID"
