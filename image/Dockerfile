@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:yakkety
 MAINTAINER Trevor Joynson <docker@trevor.joynson.io>
 
 ADD common/bin /usr/local/bin/
