@@ -9,10 +9,10 @@ RUN set -exv \
  && :
 
 # Latest Ubu release, latest Salt
-ARG SALT_APT_RELEASE="latest"
+#ARG SALT_APT_RELEASE="latest"
 
 # Latest Salt for Ubu release
-#ARG SALT_APT_RELEASE="16.04/amd64/latest"
+ARG SALT_APT_RELEASE="16.04/amd64/latest"
 
 # Specific Salt release
 #ARG SALT_APT_RELEASE="16.04/amd64/2016.3"
