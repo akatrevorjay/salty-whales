@@ -1,7 +1,5 @@
 FROM ubuntu
-MAINTAINER Trevor Joynson <docker@trevor.joynson.io>
-
-ADD common/bin /usr/local/bin/
+MAINTAINER Trevor Joynson "<docker@trevor.joynson.io>"
 
 RUN set -exv \
  && lazy-apt --no-install-recommends \
@@ -22,6 +20,7 @@ ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/${SALT_APT_RELEASE}"
 
 # Install salt-minion
 RUN set -exv \
+ && echo "Installing Salt packages" \
  && lazy-apt --no-install-recommends \
     lsb-release \
  && curl -sSL "${SALT_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
@@ -30,7 +29,17 @@ RUN set -exv \
  && lazy-apt --no-install-recommends \
         python-apt \
         salt-minion \
+        \
+        ## Needed at runtime by pyopenssl for exxo build of salt-apply-state-layer
+        #libssl1.0.0 \
  && :
 
+# salt-layers
+ENV STATE_ROOT=$IMAGE_ROOT/states \
+    PILLAR_ROOT=$IMAGE_ROOT/pillar \
+    LAYERS_ROOT=$IMAGE_ROOT/layers
+RUN pip install salt-layers
+
 # Add in files
-ADD sbin /sbin/
+ADD image $IMAGE_ROOT/
+
