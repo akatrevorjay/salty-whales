@@ -1,2 +1,7 @@
-salt/
-pillar/
+# I'm a computer
+# -----------------------------------------------
+/Dockerfile.*
+
+/salt
+/pillar
+

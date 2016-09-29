@@ -1,45 +1,18 @@
-MAKEFLAGS += --warn-undefined-variables
+SALT_RELEASES := latest 2016.3 2015.8
 
-# Do not:
-# o  use make's built-in rules and variables
-#    (this increases performance and avoids hard-to-debug behaviour);
-# o  print "Entering directory ...";
-MAKEFLAGS += -rR --no-print-directory
+TAG_PARTS ?= $(subst -, ,$@)
+BUILD_FROM_TAG ?= $(firstword $(TAG_PARTS))
+SALT_RELEASE ?= $(lastword $(TAG_PARTS))
 
-REPO = trevorj/docker-salt-layers
-BUILD_TAG = build
-IMAGE = $(REPO):$(BUILD_TAG)
+# Since we're built from docker-ubuntu-salt-minion, this is fine.
+BUILD_FROM_TAG ?= $(TAG)
 
-export REPO IMAGE BUILD_TAG
+BUILD_ARGS ?= --build-arg SALT_RELEASE=$(SALT_RELEASE)
 
-BUILD = docker build
-RUN ?= docker run -it --rm -v $(PWD)/image:/image
-BIN ?= image/bin
+TAGS ?= $(foreach TAG,$(UBUNTU_TAGS),$(addprefix $(TAG)-,$(SALT_RELEASES)))
 
-DEPS =
+EXTRA_TAGS += $(foreach TAG,$(UBUNTU_TAGS),$(TAG)=$(TAG)-latest) \
+							$(foreach SALT_RELEASE,$(SALT_RELEASES),$(SALT_RELEASE)=latest-$(SALT_RELEASE))
 
-.PHONY: all deps build test
-all: build
+include Makefile.docker
 
-clean:
-	rm -rf $(BUILD_DEPS)
-
-deps: $(DEPS)
-
-build: deps
-	$(BUILD) -t $(IMAGE) .
-
-test: build
-	$(MAKE) -C tests PARENT_IMAGE=$(IMAGE)
-
-bash: build
-	$(RUN) $(IMAGE) bash
-
-bash-verbose: build
-	$(RUN) -e ENTRYPOINT_VERBOSE=1 $(IMAGE) bash
-
-bash-debug: build
-	$(RUN) -e ENTRYPOINT_DEBUG=1 $(IMAGE) bash
-
-bash-trace: build
-	$(RUN) -e ENTRYPOINT_TRACE=1 $(IMAGE) bash
