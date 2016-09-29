@@ -1,14 +1,34 @@
 #!/bin/bash -exv
 
+#
+# [ ] Magic
+# [X] More magic
+#
 source /etc/lsb-release
+: ${DISTRIB_ARCH:="$(dpkg --print-architecture)"}
 
-# yakkety isn't "officially" supported (yet) by Salt upstream
-release="${DISTRIB_CODENAME//yakkety/xenial}"
+# Hacks on hacks
+case "$DISTRIB_CODENAME" in
+    yakkety)
+        echo "WARNING: Yakkety is not supported using the same URL scheme, trying to make this work using
+        xenial packages." >&2
+        DISTRIB_CODENAME="xenial"
+        DISTRIB_RELEASE="16.04"
+        ;;
+esac
+
+# brb vomming
+if [[ "$SALT_APT_REPO" = *$* ]]; then
+    # thrice to allow nesting
+    for i in {1..3}; do
+        eval SALT_APT_REPO="${SALT_APT_REPO}"
+    done
+fi
 
 curl -sSL "${SALT_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
   | apt-key add -
 
-echo "deb $SALT_APT_REPO $release main" >> /etc/apt/sources.list.d/saltstack-official.list
+echo "deb $SALT_APT_REPO $DISTRIB_CODENAME main" >> /etc/apt/sources.list.d/saltstack-official.list
 
 lazy-apt --no-install-recommends \
     python-apt \
