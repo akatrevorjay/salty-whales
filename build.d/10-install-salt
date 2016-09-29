@@ -1,0 +1,16 @@
+#!/bin/bash -exv
+
+source /etc/lsb-release
+
+# yakkety isn't "officially" supported (yet) by Salt upstream
+release="${DISTRIB_CODENAME//yakkety/xenial}"
+
+curl -sSL "${SALT_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
+  | apt-key add -
+
+echo "deb $SALT_APT_REPO $release main" >> /etc/apt/sources.list.d/saltstack-official.list
+
+lazy-apt --no-install-recommends \
+    python-apt \
+    salt-minion \
+    && :

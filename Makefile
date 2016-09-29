@@ -16,19 +16,10 @@ BUILD = docker build
 RUN ?= docker run -it --rm -v $(PWD)/image:/image
 BIN ?= image/bin
 
-GOLANG_IMAGE = golang:1.7
-GOLANG_BUILD = docker run --rm -it -v $(PWD)/$(BIN):/go/bin $(GOLANG_IMAGE)
-GOLANG_DEPS = $(BIN)/boilr
-REPO_$(BIN)/boilr = github.com/tmrts/boilr
-
-BUILD_DEPS = $(GOLANG_DEPS)
-DEPS = $(BUILD_DEPS)
+DEPS =
 
 .PHONY: all deps build test
 all: build
-
-$(GOLANG_DEPS):
-	$(GOLANG_BUILD)	go get -u -x -v $(REPO_$@)
 
 clean:
 	rm -rf $(BUILD_DEPS)
