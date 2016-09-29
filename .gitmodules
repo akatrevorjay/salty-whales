@@ -1,3 +1,0 @@
-[submodule "image/common"]
-	path = image/common
-	url = git://github.com/akatrevorjay/docker-boilerplate.git

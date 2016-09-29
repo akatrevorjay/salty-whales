@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+#
+# [ ] Magic
+# [X] More magic
+#
+
+exec "${0%/*}/run" "${0#*/}" "$@"
