@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 : ${WORKDIR:=$PWD}
-: ${IMAGE:=trevorj/ubuntu-salt-minion:local}
+: ${IMAGE:=trevorj/ubuntu-salt-minion}
 
 [[ -z "$MINION_ID" ]] \
     || ARGS+=" -e MINION_ID=$MINION_ID"
@@ -9,7 +9,7 @@
 #[[ -z "$MINION_ROLE" ]] \
 #    || ARGS+=" -e MINION_ROLE=$MINION_ROLE"
 
-exec docker run -t -i \
+exec docker run -it \
     -v "${STATES:-$WORKDIR/salt}:/srv/salt" \
     -v "${PILLAR:-$WORKDIR/pillar}:/srv/pillar" \
     $ARGS \
