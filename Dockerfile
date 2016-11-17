@@ -3,7 +3,7 @@ MAINTAINER Trevor Joynson "<docker@trevor.joynson.io>"
 
 # Latest
 ARG SALT_RELEASE="latest"
-ARG SALT_PACKAGES="salt-minion"
+ARG SALT_PACKAGES="salt-minion salt-master salt-api salt-cloud"
 
 ## Pinned
 #ARG SALT_RELEASE="2016.3"
