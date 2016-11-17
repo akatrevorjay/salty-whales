@@ -9,6 +9,7 @@ Gimme the rundown like motown
 
 * Docker Hub: https://hub.docker.com/r/trevorj/salty-whales
 * CircleCI: https://circleci.com/gh/akatrevorjay/salty-whales
+* A whale named *Salt*: http://www.whaleswithnames.com/salt/
 
 Why?
 ----
@@ -33,7 +34,6 @@ Troubleshooting
 
 `Q:` My whales are far too salty, they seem uncomfortable
 
-`A:` Nonsense! A *salty* whale is a *happy* whale.
-It says that right in the `README`, duh.
+`A:` Nonsense! A *salty* whale is a *happy* whale. It says that right in the `README`.
 
 
