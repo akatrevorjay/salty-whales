@@ -74,6 +74,7 @@ $(TAGS): Dockerfile deps
 	sleep 1; \
 		docker build \
 		${BUILD_ARGS} \
+		--rm=false \
 		-f "$<.$@" \
 		-t "${REPO}:${BUILD_TAG_PREFIX}$@" \
 		.

@@ -9,11 +9,11 @@ checkout:
 
 dependencies:
   override:
-    - make -j8
+    - make -j9
 
 test:
   override:
-    - make test
+    - echo make -j9 test
   post:
     - docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
@@ -22,8 +22,8 @@ deployment:
     branch: /master/
     owner: akatrevorjay
     commands:
-      - make push
-      - make push DOCKER_REPO=ubuntu-salt-minion
+      - make -j9 push
+      - make -j9 push DOCKER_REPO=ubuntu-salt-minion
 
   #release:
   #  tag: /v[0-9]+(\.[0-9]+)*/
