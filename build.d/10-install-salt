@@ -10,8 +10,7 @@ source /etc/lsb-release
 # Hacks on hacks
 case "$DISTRIB_CODENAME" in
     yakkety)
-        echo "WARNING: Yakkety is not supported using the same URL scheme, trying to make this work using
-        xenial packages." >&2
+        echo "WARNING: Yakkety is not supported using the same URL scheme, trying to make this work using xenial packages." >&2
         DISTRIB_CODENAME="xenial"
         DISTRIB_RELEASE="16.04"
         ;;
@@ -32,5 +31,5 @@ echo "deb $SALT_APT_REPO $DISTRIB_CODENAME main" >> /etc/apt/sources.list.d/salt
 
 lazy-apt --no-install-recommends \
     python-apt \
-    salt-minion \
+    ${SALT_PACKAGES:?} \
     && :
