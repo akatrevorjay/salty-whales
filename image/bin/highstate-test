@@ -1,2 +1,2 @@
-#!/bin/bash -e
-exec highstate test=True
+#!/bin/bash -exv
+exec highstate test=True "$@"
