@@ -23,5 +23,5 @@ RUN run-parts --verbose --exit-on-error -- "$IMAGE_ROOT/build.d" \
 ADD image $IMAGE_ROOT/
 
 VOLUME ["/etc/salt/pki", "/srv/salt", "/srv/pillar"]
-EXPOSE [4505, 4506]
+EXPOSE 4505 4506
 
