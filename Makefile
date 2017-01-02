@@ -1,4 +1,4 @@
-SALT_RELEASES := latest 2016.3 2015.8
+SALT_RELEASES := latest 2016.11 2016.3 2015.8
 
 TAG_PARTS ?= $(subst -, ,$@)
 BUILD_FROM_TAG ?= $(firstword $(TAG_PARTS))
