@@ -24,4 +24,5 @@ ADD image $IMAGE_ROOT/
 VOLUME ["/etc/salt/pki", "/srv/salt", "/srv/pillar"]
 EXPOSE 4505 4506
 
-HEALTHCHECK --interval=5m --timeout=3s CMD-SHELL nc -z localhost 4505 && nc -z localhost 4506 || exit 1
+# Fucking CI docker is from 1999.
+#HEALTHCHECK --interval=5m --timeout=3s CMD-SHELL nc -z localhost 4505 && nc -z localhost 4506 || exit 1
