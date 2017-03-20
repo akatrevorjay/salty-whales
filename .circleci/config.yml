@@ -24,7 +24,7 @@ jobs:
             set -eo pipefail
             set -xv
             export ${!*}
-            make -j8
+            make -j10
 
       #- run:
       #    name: test
@@ -46,7 +46,7 @@ jobs:
             export ${!*}
             case "$CIRCLE_BRANCH" in
                 master)
-                  make -j8 push
-                  make -j8 push DOCKER_REPO=ubuntu-salt-minion
+                  make -j10 push
+                  make -j10 push DOCKER_REPO=ubuntu-salt-minion
                   ;;
             esac
