@@ -8,7 +8,10 @@ DOCKER_USER ?= $(USER)
 DOCKER_REPO ?= $(subst docker-,,$(notdir $(abspath .)))
 REPO ?= ${DOCKER_USER}/${DOCKER_REPO}
 
-UBUNTU_TAGS := latest zesty yakkety xenial trusty
+# latest == LTS
+# rolling == Latest release
+# devel == Latest development release
+UBUNTU_TAGS := latest rolling devel zesty yakkety xenial trusty
 TAGS ?= $(UBUNTU_TAGS)
 
 BUILD_TAG_PREFIX ?= build-
@@ -74,7 +77,6 @@ $(TAGS): Dockerfile deps
 	sleep 1; \
 		docker build \
 		${BUILD_ARGS} \
-		--rm=false \
 		-f "$<.$@" \
 		-t "${REPO}:${BUILD_TAG_PREFIX}$@" \
 		.
@@ -85,8 +87,9 @@ build: $(TAGS)
 test: build
 	for TAG in $(TAGS); do \
 		BUILD_TAG="${BUILD_TAG_PREFIX}$${TAG}"; \
+		IMAGE="${REPO}:$${BUILD_TAG}"; \
 		\
-		echo "-- $@: TAG=$${TAG} BUILD_TAG=$${BUILD_TAG}" >&2; \
+		./tests/run-tests "$$IMAGE"; \
 	done
 
 tag: build
