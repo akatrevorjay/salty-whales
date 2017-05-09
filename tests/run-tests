@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "No tests to run at this time. Try praying!" >&2
