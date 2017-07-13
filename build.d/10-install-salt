@@ -11,7 +11,7 @@ source /etc/lsb-release
 
 # Hacks on hacks
 case "$DISTRIB_CODENAME" in
-    yakkety|zesty)
+    zesty|artful)
         echo "WARNING: $DISTRIB_CODENAME is not supported using the same URL scheme, trying to make this work using xenial packages." >&2
         DISTRIB_CODENAME="xenial"
         DISTRIB_RELEASE="16.04"
