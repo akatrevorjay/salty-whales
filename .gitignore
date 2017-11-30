@@ -1,6 +1,6 @@
 # I'm a computer
 # -----------------------------------------------
-/Dockerfile.*
+/host/
 
 /salt
 /pillar
