@@ -1,2 +1,9 @@
 #!/bin/bash
-echo "No tests to run at this time. Try praying!" >&2
+set -eo pipefail
+
+: ${IMAGE:="$1"}
+: ${IMAGE:?}
+
+export IMAGE
+
+bats "${0%/*}"/*.bats
