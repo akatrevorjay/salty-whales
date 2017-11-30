@@ -1,0 +1,25 @@
+version: '2'
+services:
+  base: &base
+    build: .
+    image: trevorj/salty-whales
+    command: master
+    volumes:
+      - ./salt:/srv/salt
+      - ./pillar:/srv/pillar
+  minion: <: {*base}
+    build: .
+    image: trevorj/salty-whales
+    command: minion
+    volumes:
+      - ./salt:/srv/salt
+      - ./pillar:/srv/pillar
+  minion-sls:
+    <: {*base}
+    build: .
+    image: trevorj/salty-whales
+    command: minion
+    volumes:
+      - ./salt:/srv/salt
+      - ./pillar:/srv/pillar
+
