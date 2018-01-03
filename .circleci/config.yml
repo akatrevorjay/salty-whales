@@ -33,7 +33,7 @@ jobs:
       - deploy:
           name: docker-login
           command: |
-            exec docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            exec docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
       - deploy:
           name: push
@@ -43,3 +43,12 @@ jobs:
                 master)
                   exec make -j8 push ;;
             esac
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - build:
+          context: org-global
+
