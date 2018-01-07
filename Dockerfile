@@ -5,17 +5,17 @@ FROM $SALTY_PARENT_IMAGE:$SALTY_PARENT_TAG
 MAINTAINER Trevor Joynson "<docker@trevor.joynson.io>"
 
 # Latest
-ARG SALT_RELEASE="latest"
-ARG SALT_PACKAGES="salt-minion salt-master salt-api salt-cloud salt-ssh nacl-tools git"
+ARG SALTY_RELEASE="latest"
+ARG SALTY_PACKAGES="salt-minion salt-master salt-api salt-cloud salt-ssh nacl-tools git"
 
 ## Pinned
-#ARG SALT_RELEASE="2016.3"
+#ARG SALTY_RELEASE="2016.3"
 
 # Lazy automagic (eval'd later, don't judge me)
-ARG SALT_APT_RELEASE="\${DISTRIB_RELEASE}/\${DISTRIB_ARCH}/\${SALT_RELEASE}"
+ARG SALTY_APT_RELEASE="\${DISTRIB_RELEASE}/\${DISTRIB_ARCH}/\${SALTY_RELEASE}"
 
 # Build repo URL
-ARG SALT_APT_REPO="http://repo.saltstack.com/apt/ubuntu/\${SALT_APT_RELEASE}"
+ARG SALTY_APT_REPO="http://repo.saltstack.com/apt/ubuntu/\${SALTY_APT_RELEASE}"
 
 # Install salt-minion
 COPY build.d $IMAGE_ROOT/build.d

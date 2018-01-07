@@ -2,10 +2,6 @@
 set -eo pipefail
 set -xv
 
-#
-# [ ] Magic
-# [X] More magic
-#
 source /etc/lsb-release
 : ${DISTRIB_ARCH:="$(dpkg --print-architecture)"}
 
@@ -18,21 +14,25 @@ case "$DISTRIB_CODENAME" in
         ;;
 esac
 
+#
+# [ ] Magic
+# [X] More magic
+#
 # brb vomming
-if [[ "$SALT_APT_REPO" = *$* ]]; then
+if [[ "$SALTY_APT_REPO" = *$* ]]; then
     # thrice to allow nesting
     for i in {1..3}; do
-        eval SALT_APT_REPO="${SALT_APT_REPO}"
+        eval SALTY_APT_REPO="${SALTY_APT_REPO}"
     done
 fi
 
-curl -sSLf "${SALT_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
+curl -sSLf "${SALTY_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
   | apt-key add -
 
-echo "deb $SALT_APT_REPO $DISTRIB_CODENAME main" >> /etc/apt/sources.list.d/saltstack-official.list
+echo "deb $SALTY_APT_REPO $DISTRIB_CODENAME main" >> /etc/apt/sources.list.d/saltstack-official.list
 
 lazy-apt --no-install-recommends \
     python-apt \
-    ${SALT_PACKAGES:?} \
+    ${SALTY_PACKAGES:?} \
     && :
 
