@@ -1,4 +1,7 @@
-FROM trevorj/boilerplate
+ARG SALTY_PARENT_IMAGE="trevorj/boilerplate"
+ARG SALTY_PARENT_TAG="latest"
+FROM $SALTY_PARENT_IMAGE:$SALTY_PARENT_TAG
+
 MAINTAINER Trevor Joynson "<docker@trevor.joynson.io>"
 
 # Latest
