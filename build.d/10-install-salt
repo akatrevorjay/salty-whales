@@ -26,6 +26,9 @@ if [[ "$SALTY_APT_REPO" = *$* ]]; then
     done
 fi
 
+lazy-apt --no-install-recommends \
+  gnupg2
+
 curl -sSLf "${SALTY_APT_REPO}/SALTSTACK-GPG-KEY.pub" \
   | apt-key add -
 
