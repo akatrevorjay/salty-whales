@@ -2,8 +2,9 @@
 set -eo pipefail
 set -xv
 
-if type -a salt-cloud >/dev/null; then
+if ! type -a salt-cloud >/dev/null; then
     echo "[$0] No salt-cloud found. Not updating." >&2
+    exit 0
 fi
 
 salt-cloud -u
